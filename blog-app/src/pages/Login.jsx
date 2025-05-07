@@ -21,6 +21,7 @@ const Login = () => {
     API.post("/auth/login", { email, password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userId",res.data._id)
         navigate("/");
       })
       .catch((err) => {
