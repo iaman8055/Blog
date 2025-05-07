@@ -14,7 +14,7 @@ const PostDetail = () => {
   const handleDelete = () => {
     API.delete(`/posts/${id}`).then(() => navigate("/"));
   };
-  const isAuthor=post.authorId
+
   if (!post) return <p>Loading...</p>;
 
   return (
