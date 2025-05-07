@@ -4,9 +4,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
-import Navbar from "./components/Navbar";
 import PostDetail from "./pages/PostDetails";
 import Signup from "./pages/SignUp";
+import Navbar from "./Components/Navbar";
 
 function App() {
   return (
