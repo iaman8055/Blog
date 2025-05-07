@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import API from "../util/api";
+import { decodeToken } from "../util/decodeToken";
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -12,19 +12,10 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  // Redirect if already logged in
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        if (decoded?.id) {
-          navigate("/"); // Already logged in
-        }
-      } catch (err) {
-        console.error("Invalid token");
-        localStorage.removeItem("token");
-      }
+    const user = decodeToken();
+    if (user?.id) {
+      navigate("/"); 
     }
   }, [navigate]);
 
