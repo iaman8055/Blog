@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
+import { decodeToken } from "../util/decodeToken";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
 
+  const loadUser = () => {
+    const decoded = decodeToken();
+    setUser(decoded);
+  };
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setUser(decoded);
-      } catch (err) {
-        console.error("Invalid token", err);
-        localStorage.removeItem("token");
-      }
-    }
+    loadUser(); 
+
+    window.addEventListener("login", loadUser);
+
+    return () => {
+      window.removeEventListener("login", loadUser);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -32,10 +34,7 @@ const Navbar = () => {
 
       <div className="relative">
         {!user ? (
-          <>
-            <Link to="/login" className="mr-4">Login</Link>
-            <Link to="/signup">Signup</Link>
-          </>
+          <Link to="/login" className="mr-4">Login</Link>
         ) : (
           <div className="flex items-center space-x-4">
             <Link to="/create" className="bg-blue-700 px-3 py-1 rounded">Create</Link>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import API from "../util/api";
+import { decodeToken } from "../util/decodeToken";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,6 +10,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   // Redirect if already logged in
+   const loadUser = () => {
+      const decoded = decodeToken();
+      setUser(decoded);
+    };
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
